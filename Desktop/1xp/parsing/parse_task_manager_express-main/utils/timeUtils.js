@@ -1,22 +1,34 @@
 /**
+ * Рассчитывает интервал в миллисекундах
+ * @param {string} interval - Интервал в формате "3h", "1d", "15m"
+ * @returns {number} - Интервал в миллисекундах
+ */
+const calculateInterval = (interval) => {
+  const [value, unit] = [parseInt(interval, 10), interval.slice(-1)];
+
+  switch (unit) {
+    case "m":
+      return value * 60 * 1000;
+    case "h":
+      return value * 60 * 60 * 1000;
+    case "d":
+      return value * 24 * 60 * 60 * 1000;
+    default:
+      throw new Error("Unsupported interval format");
+  }
+};
+
+/**
  * Рассчитывает дату следующего запуска
  * @param {string} interval - Интервал в формате "3h", "1d", "15m"
  * @returns {Date} - Дата следующего запуска
  */
-exports.calculateNextRun = (interval) => {
+const calculateNextRun = (interval) => {
   const now = new Date();
-  const [value, unit] = [parseInt(interval), interval.slice(-1)];
+  return new Date(now.getTime() + calculateInterval(interval));
+};
 
-  switch (unit) {
-    case "m": // Минуты
-      return new Date(now.getTime() + value * 60 * 1000);
-    case "h": // Часы
-      return new Date(now.getTime() + value * 60 * 60 * 1000);
-    case "d": // Дни
-      return new Date(now.getTime() + value * 24 * 60 * 60 * 1000);
-    case "w": // Недели
-      return new Date(now.getTime() + value * 7 * 24 * 60 * 60 * 1000);
-    default:
-      throw new Error("Unsupported interval format");
-  }
+module.exports = {
+  calculateInterval,
+  calculateNextRun,
 };

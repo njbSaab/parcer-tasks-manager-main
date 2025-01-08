@@ -2,6 +2,7 @@ const AppDataSource = require("../config/database");
 const TaskLog = require("../models/taskLogModel");
 
 const saveTaskLog = async (task_id, status, message) => {
+  console.log("Попытка сохранить лог:", { task_id, status, message });
   try {
     const logRepo = AppDataSource.getRepository(TaskLog);
     const log = logRepo.create({

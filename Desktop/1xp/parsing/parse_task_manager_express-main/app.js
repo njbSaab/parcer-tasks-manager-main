@@ -3,6 +3,8 @@ const cors = require("cors");
 const userRoutes = require("./api/routes/userRoutes");
 const taskRoutes = require("./api/routes/taskRoutes");
 const AppDataSource = require("./config/database");
+const taskQueueLogsRoutes = require("./api/routes/taskQueueLogsRoutes");
+
 require("dotenv").config();
 
 const app = express();
@@ -44,6 +46,7 @@ app.use((req, res, next) => {
 // Подключение маршрутов
 app.use("/api/users", userRoutes);
 app.use("/api/tasks", taskRoutes);
+app.use("/api/queue-logs", taskQueueLogsRoutes);
 
 // Запуск сервера
 AppDataSource.initialize()

@@ -20,3 +20,167 @@
     /utils
       timeUtils.js          // Утилиты для работы с временем
   app.js                    // Точка входа в приложение
+
+
+
+
+
+
+1. Обход блокировок
+a) Эмуляция браузера
+Используйте Puppeteer, Playwright, или Selenium вместо простых HTTP-запросов.
+Эти библиотеки позволяют:
+Эмулировать действия пользователя (клики, прокрутка).
+Обрабатывать страницы, которые используют JavaScript для генерации контента.
+Изменять user-agent, заголовки и параметры сети.
+Выполнять ротацию IP-адресов.
+Пример с Puppeteer:
+
+javascript
+Copy code
+const puppeteer = require("puppeteer");
+
+async function scrapeWithPuppeteer(url) {
+  const browser = await puppeteer.launch({
+    headless: true, // Запуск в безголовом режиме
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
+  const page = await browser.newPage();
+
+  // Установка пользовательского агента
+  await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36");
+
+  // Открываем URL
+  await page.goto(url, { waitUntil: "networkidle2" });
+
+  // Скриншот для отладки
+  await page.screenshot({ path: "screenshot.png" });
+
+  // Извлечение данных
+  const content = await page.content();
+
+  await browser.close();
+  return content;
+}
+b) Ротация прокси
+Используйте сторонние прокси-сервисы, такие как:
+Bright Data, ScraperAPI, или Oxylabs.
+Включите ротацию IP для обхода IP-блокировок.
+Пример настройки прокси с Puppeteer:
+javascript
+Copy code
+const browser = await puppeteer.launch({
+  headless: true,
+  args: [
+    "--proxy-server=http://username:password@proxyhost:port", // Подключение прокси
+  ],
+});
+c) CAPTCHA обход
+Интеграция с решениями CAPTCHA, такими как 2Captcha, Anti-Captcha, или hCaptcha.
+Используйте Puppeteer Extra Plugins:
+javascript
+Copy code
+const pluginStealth = require("puppeteer-extra-plugin-stealth");
+puppeteer.use(pluginStealth());
+2. Поддержка сложных структур
+a) Анализ HTML
+Используйте Cheerio для работы с HTML-структурой:
+javascript
+Copy code
+const cheerio = require("cheerio");
+
+function parseHTML(html) {
+  const $ = cheerio.load(html);
+  const titles = [];
+  $("h1, h2, h3").each((i, el) => {
+    titles.push($(el).text());
+  });
+  return titles;
+}
+b) Работа с API
+Если сайт имеет открытое API, лучше использовать его вместо парсинга HTML.
+Используйте axios для отправки запросов к API:
+javascript
+Copy code
+const axios = require("axios");
+
+async function fetchFromAPI(endpoint, params) {
+  const response = await axios.get(endpoint, { params });
+  return response.data;
+}
+c) Обработка JSON и динамических данных
+Сочетайте Cheerio с Puppeteer для динамических данных, загружаемых через JavaScript.
+3. Эмуляция пользователя
+Случайные действия: Прокрутка страницы, задержки между запросами, открытие новых вкладок.
+Заголовки:
+Динамическая генерация User-Agent, Referer, и Accept-Language.
+4. Улучшение логирования и мониторинга
+Добавьте детализированное логирование для отладки.
+Интеграция с системами мониторинга:
+Prometheus + Grafana: Для анализа количества запросов, ошибок и времени ответа.
+Пример логирования:
+
+javascript
+Copy code
+const winston = require("winston");
+
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: "combined.log" }),
+  ],
+});
+
+logger.info("Парсинг начат");
+5. Интеграция с текущим проектом
+Обновите ParserService:
+Поддержка Puppeteer.
+Ротация прокси и User-Agent.
+Работа с HTML и JSON.
+Создайте отдельные классы для:
+Обработки HTML.
+Подключения к API.
+Ротации прокси.
+6. Тестирование
+Реализуйте юнит-тесты для:
+Обработки HTML (Cheerio).
+Эмуляции браузера (Puppeteer).
+Протестируйте парсер на разных сайтах, чтобы убедиться в его надежности.
+Пример улучшенного ParserService с Puppeteer:
+javascript
+Copy code
+const puppeteer = require("puppeteer");
+
+class AdvancedParser {
+  async parse(url, content) {
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
+    
+    await page.setUserAgent(
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+    );
+    await page.goto(url, { waitUntil: "networkidle2" });
+
+    const found = await page.evaluate((content) => {
+      return document.body.innerText.includes(content);
+    }, content);
+
+    await browser.close();
+    return found;
+  }
+}
+
+module.exports = new AdvancedParser();
+7. Распределение нагрузки
+Микросервисная архитектура:
+Разделите проект на отдельные микросервисы для парсинга и управления задачами.
+Кластеризация:
+Используйте PM2 или K8s для обработки множества задач.
+Эта реализация обеспечит точность парсинга, устойчивость к блокировкам и гибкость для обработки различных типов данных.
+
+
+
+
+
+

@@ -1,5 +1,6 @@
 const ParserService = require("../services/parserService");
 const saveTaskLog = require("./saveTaskLog");
+const addTaskToQueue = require("../services/queueService");
 
 /**
  * Планирует выполнение задачи парсинга
@@ -9,10 +10,10 @@ const saveTaskLog = require("./saveTaskLog");
  */
 const scheduleParserTask = async (task_id, url, content, interval) => {
   try {
-    console.log(`Запуск парсинга: Task ID=${task_id}, URL=${url}, Content="${content}", Interval=${interval}`);
-
+    console.log(
+      `Запуск парсинга: Task ID=${task_id}, URL=${url}, Interval=${interval}`
+    );
     const log = await ParserService.runParser(url, content, interval);
-    console.log("Результат парсинга:", log);
 
     if (!log || !log.nextRun) {
       console.error("Ошибка: `nextRun` не рассчитан или отсутствует.");
@@ -20,22 +21,22 @@ const scheduleParserTask = async (task_id, url, content, interval) => {
       return;
     }
 
-    const delay = new Date(log.nextRun).getTime() - Date.now();
-    console.log(`Следующий запуск через: ${delay} мс (${delay / 1000} секунд)`);
+    // Сохраняем результат в логах
+    console.log(`[scheduleParserTask] Лог результата:`, log);
+    await saveTaskLog(
+      task_id,
+      log.success ? "успешно" : "ошибка",
+      JSON.stringify(log)
+    );
 
-    // Сохраняем лог в базу данных
-    await saveTaskLog(task_id, log.result ? 'успешно' : 'ошибка', JSON.stringify(log));
+    // Добавляем следующую задачу в очередь
+    const nextRun = calculateNextRun(interval);
+    console.log(`Следующий запуск задачи ID=${task_id} в ${nextRun}`);
 
-    if (delay > 0) {
-      setTimeout(() => scheduleParserTask(task_id, url, content, interval), delay);
-    } else {
-      console.error("Ошибка: рассчитанная задержка отрицательная.");
-    }
+    await addTaskToQueue({ task_id, url, content, interval, nextRun });
   } catch (error) {
     console.error("Ошибка при планировании парсинга:", error.message);
-    // Логируем ошибку в базу данных
-    await saveTaskLog(task_id, 'ошибка', error.message);
+    await saveTaskLog(task_id, "ошибка", error.message);
   }
 };
-
 module.exports = scheduleParserTask;
