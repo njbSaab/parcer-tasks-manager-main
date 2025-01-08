@@ -44,4 +44,36 @@ router.post("/save", async (req, res) => {
   }
 });
 
+router.get("/:telegramId", async (req, res) => {
+  let telegramId = req.params.telegramId;
+
+  // Преобразуем в строку
+  telegramId = String(telegramId);
+
+  console.log("Запрос получения пользователя:", { telegramId });
+
+  if (!telegramId) {
+    return res.status(400).json({ error: "telegramId обязателен" });
+  }
+
+  try {
+    await ensureDatabaseInitialized();
+    const userRepo = AppDataSource.getRepository(User);
+
+    const user = await userRepo.findOne({ where: { telegram_id: telegramId } });
+
+    if (!user) {
+      console.warn("Пользователь не найден:", telegramId);
+      return res
+        .status(404)
+        .json({ success: false, message: "Пользователь не найден" });
+    }
+
+    res.json({ success: true, user });
+  } catch (error) {
+    console.error("Ошибка при обработке запроса:", error.message);
+    res.status(500).json({ error: "Ошибка сервера" });
+  }
+});
+
 module.exports = router;

@@ -6,6 +6,7 @@ const {
 const AppDataSource = require("../../config/database"); 
 const Task = require("../../models/taskModel");
 const scheduleParserTask = require("../../utils/scheduleParser");
+const TaskLog = require("../../models/taskLogModel");
 
 router.post("/parser", async (req, res) => {
   const { url, content, interval, frequency, period, userId } = req.body;
@@ -37,12 +38,13 @@ router.post("/parser", async (req, res) => {
   try {
     console.log("Period получен:", period);
     await ensureDatabaseInitialized(); // Проверяем и инициализируем базу данных
+    
     const taskRepo = AppDataSource.getRepository(Task);
     console.log("Репозиторий задач получен.");
 
     const newTask = taskRepo.create({
       user_id: userId,
-      name: `Парсинг: ${url}`,
+      name: `🔎 ${url}`,
       url,
       content,
       interval,
@@ -55,8 +57,8 @@ router.post("/parser", async (req, res) => {
     await taskRepo.save(newTask);
     console.log("Задача успешно сохранена в базе данных.");
 
-    await scheduleParserTask(url, content, interval);
-    console.log("Задача успешно запланирована.");
+    // Передаем `task_id` в планировщик
+    await scheduleParserTask(newTask.id, url, content, interval);
 
     res.status(200).json({
       message: "Задача успешно создана и запланирована.",
@@ -67,7 +69,6 @@ router.post("/parser", async (req, res) => {
     res.status(500).json({ error: "Ошибка при создании задачи" });
   }
 });
-
 // Получение всех задач
 router.get("/", async (req, res) => {
   try {
@@ -77,6 +78,24 @@ router.get("/", async (req, res) => {
   } catch (error) {
     console.error("Ошибка при получении задач:", error.message);
     res.status(500).json({ error: "Ошибка при получении задач" });
+  }
+});
+// получения логов задачи по task_id
+router.get("/:task_id/logs", async (req, res) => {
+  const { task_id } = req.params;
+
+  try {
+    // Убедитесь, что logRepo получает TaskLog
+    const logRepo = AppDataSource.getRepository(TaskLog);
+    const logs = await logRepo.find({
+      where: { task_id },
+      order: { created_at: "DESC" },
+    });
+    
+    res.status(200).json(logs);
+  } catch (error) {
+    console.error("Ошибка при получении логов:", error.message);
+    res.status(500).json({ error: "Ошибка при получении логов" });
   }
 });
 

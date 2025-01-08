@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const {
   ensureDatabaseInitialized,
-} = require("../../controllers/databaseController");
-const Task = require("../../models/taskModel");
+} = require("../controllers/");
+const Task = require("../models/taskModel");
+
 
 router.post("/parser", async (req, res) => {
   try {
@@ -23,7 +24,7 @@ router.post("/parser", async (req, res) => {
 
     const newTask = taskRepo.create({
       user_id: userId,
-      name: `Парсинг: ${url}`,
+      name: url,
       url,
       content,
       interval,
