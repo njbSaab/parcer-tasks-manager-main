@@ -1,0 +1,75 @@
+src/
+│── assets/                # Статические файлы (изображения, шрифты, иконки)
+│   ├── images/            # Логотипы, баннеры, иллюстрации
+│   ├── icons/             # SVG иконки
+│   ├── styles/            # Глобальные стили (SCSS/CSS)
+│   ├── fonts/             # Шрифты, если используются
+│
+│── components/            # Глобальные переиспользуемые компоненты
+│   ├── ui/                # UI-элементы (кнопки, лоадеры, модальные окна)
+│   ├── layout/            # Глобальные компоненты (шапка, футер, боковое меню)
+│   ├── shared/            # Локальные компоненты, используемые в нескольких страницах
+│
+│── layouts/               # Шаблоны страниц (например, стандартная, без меню и т. д.)
+│
+│── pages/                 # Страницы, которые будут использоваться в маршрутизации
+│   ├── Home.vue           # Главная страница
+│   ├── SportsBetting.vue  # Раздел о ставках на спорт
+│   ├── Casino.vue         # Раздел казино
+│   ├── VirtualCasino.vue  # Виртуальное казино
+│   ├── Esports.vue        # Киберспорт
+│   ├── Bonuses.vue        # Бонусные предложения
+│   ├── Payments.vue       # Депозиты и вывод
+│   ├── FAQ.vue            # Часто задаваемые вопросы
+│   ├── Account.vue        # Доступ к аккаунту
+│   ├── LiveCasino.vue     # Казино с живыми дилерами
+│
+│── plugins/               # Подключение Vuetify, Vuex/Pinia, API
+│   ├── vuetify.js         # Конфигурация Vuetify
+│   ├── axios.js           # Настройка HTTP-клиента
+│   ├── auth.js            # Авторизация, JWT и т. д.
+│
+│── router/                # Маршрутизация
+│   ├── index.js           # Основные маршруты приложения
+│
+│── stores/                # Состояние (Pinia/Vuex)
+│   ├── app.js             # Глобальное состояние приложения
+│   ├── user.js            # Данные пользователя (авторизация, профиль)
+│   ├── betting.js         # Ставки и события
+│
+│── utils/                 # Утилиты и вспомогательные функции
+│   ├── helpers.js         # Общие вспомогательные функции
+│   ├── formatters.js      # Форматирование данных (дат, чисел и т. д.)
+│
+│── App.vue                # Корневой компонент
+│── main.js                # Точка входа в приложение
+│── .env                   # Переменные окружения
+│── .eslintrc.js           # Настройки линтера
+│── tailwind.config.js      # Конфигурация Tailwind CSS
+│── package.json           # Зависимости проекта
+
+
+
+import { createRouter, createWebHistory } from 'vue-router';
+
+const routes = [
+  { path: '/', component: () => import('@/pages/Home.vue') },
+  { path: '/sports-betting', component: () => import('@/pages/SportsBetting.vue') },
+  { path: '/casino', component: () => import('@/pages/Casino.vue') },
+  { path: '/virtual-casino', component: () => import('@/pages/VirtualCasino.vue') },
+  { path: '/esports', component: () => import('@/pages/Esports.vue') },
+  { path: '/bonuses', component: () => import('@/pages/Bonuses.vue') },
+  { path: '/payments', component: () => import('@/pages/Payments.vue') },
+  { path: '/faq', component: () => import('@/pages/FAQ.vue') },
+  { path: '/account', component: () => import('@/pages/Account.vue') },
+  { path: '/live-casino', component: () => import('@/pages/LiveCasino.vue') }
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes
+});
+
+export default router;
+
+

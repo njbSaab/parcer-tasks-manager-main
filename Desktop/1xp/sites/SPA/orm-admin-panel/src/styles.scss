@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.alert {
+  position: fixed;
+  max-width: 500px;
+  width: 40%;
+  z-index: 1111;
+  cursor: pointer;
+  left: 30%;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.alert.alert-success {
+  background-color: rgba(1, 183, 1, 0.517) !important;
+  color: rgba(1, 255, 1, 0.82) !important;
+}
+.alert.alert-error {
+  background-color: rgba(255, 0, 0, 0.498) !important;
+}
+.shadow-block {
+  box-shadow: 0 0 20px #a5b4fc5c;
+  //   box-shadow: 0 0 20px #4e46e551;
+}
+.hover-shadow {
+  transition: all 0.3s ease-in-out;
+}
+.hover-shadow:hover {
+  box-shadow: 0 0 15px #4e46e58b;
+  scale: 1.03;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+span.btn-success {
+  background-color: rgba(1, 183, 1, 0.517) !important;
+}
+.radius-30 {
+  border-radius: 30px;
+}
+.radius-20 {
+  border-radius: 30px;
+}
+.btn.btn-ghost span {
+  margin: -1px;
+}
+.btn.btn-ghost.btn-error:hover {
+  background-color: rgba(255, 0, 0, 0.498) !important;
+}
+.btn.btn-ghost.btn-success:hover {
+  background-color: rgba(1, 183, 1, 0.517) !important;
+}
+.btn-ghost.btn-info:hover {
+  background-color: #007efc7f !important;
+}
+span.btn-info {
+  color: white !important;
+}
+.card {
+  border-radius: 30px !important;
+  overflow: hidden;
+}
+.card-body {
+  border-radius: 0 !important;
+  gap: 4px !important;
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+}
+.ng-star-inserted label {
+  margin-bottom: -7.6px;
+}
+.container {
+  border-radius: 30px;
+  padding: 20px;
+}
+.content {
+  border-radius: 30px;
+  padding: 20px;
+}
+.main-bg {
+}
+.header-title {
+  margin-bottom: 10px;
+  border-radius: 0px 0px 30px 30px;
+  padding: 10px 20px;
+  .title {
+    position: relative;
+    padding-left: 10px;
+    &:after {
+      content: "";
+      position: absolute;
+      height: 100%;
+      width: 4px;
+      background: #6366f1;
+      left: 0;
+      bottom: 0;
+    }
+  }
+}
+.isLoading {
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.collapse {
+  border-radius: 30px !important;
+}
