@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+.admin-page {
+  max-width: 1960px;
+}
 .alert {
   position: fixed;
   max-width: 500px;
@@ -18,6 +21,12 @@
 }
 .alert.alert-error {
   background-color: rgba(255, 0, 0, 0.498) !important;
+}
+.active-link {
+  background-color: #e0e7ff; // или твой цвет
+  border-left-color: #6366f1; // например, indigo-500
+  color: #1e40af;
+  font-weight: 600;
 }
 .shadow-block {
   box-shadow: 0 0 20px #a5b4fc5c;
@@ -41,6 +50,7 @@ span.btn-success {
 .radius-20 {
   border-radius: 30px;
 }
+
 .btn.btn-ghost span {
   margin: -1px;
 }

@@ -26,6 +26,7 @@ import { TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
     ReactiveFormsModule,
     TuiInputModule,
     TuiInputPasswordModule,
+
   ],
   bootstrap: [AppComponent],
 })

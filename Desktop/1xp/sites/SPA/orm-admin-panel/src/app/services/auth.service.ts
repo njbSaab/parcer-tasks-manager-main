@@ -18,9 +18,14 @@ export class AuthService {
         localStorage.setItem('auth', 'true');
         localStorage.setItem('isAvailable', 'true');
         localStorage.setItem('role', user.role);
+        localStorage.setItem('login', user.login); 
         return true;
       })
       .catch(() => false);
+  }
+  
+  getLogin(): string | null {
+    return localStorage.getItem('login');
   }
 
   logout(): void {
@@ -36,4 +41,5 @@ export class AuthService {
   getRole(): string | null {
     return localStorage.getItem('role');
   }
+
 }

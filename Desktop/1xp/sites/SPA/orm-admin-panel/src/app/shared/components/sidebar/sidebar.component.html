@@ -16,6 +16,7 @@
         <li>
           <a
             routerLink="/admin/edit-page"
+            routerLinkActive="active-link"
             class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-indigo-50 active:scale-110 ease-in transition-all hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-2"
           >
             <span class="inline-flex justify-center items-center ml-4">
@@ -30,6 +31,7 @@
         <li>
           <a
             routerLink="/admin/added-image-page"
+            routerLinkActive="active-link"
             class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-indigo-50 active:scale-110 ease-in transition-all hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-2"
           >
             <span class="inline-flex justify-center items-center ml-4">
@@ -58,6 +60,7 @@
         <li>
           <a
             routerLink="/admin/send-message-page"
+            routerLinkActive="active-link"
             class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-indigo-50 active:scale-110 ease-in transition-all hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-2"
           >
             <span class="inline-flex justify-center items-center ml-4">
@@ -82,6 +85,7 @@
         <li>
           <a
             routerLink="/admin/added-page"
+            routerLinkActive="active-link"
             class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-indigo-50 active:scale-110 ease-in transition-all hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-2"
           >
             <span class="inline-flex justify-center items-center ml-4">
@@ -108,6 +112,7 @@
         <li>
           <a
             routerLink="/admin/users-page"
+            routerLinkActive="active-link"
             class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-indigo-50 active:scale-110 ease-in transition-all hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-2"
           >
             <span class="inline-flex justify-center items-center ml-4">
@@ -180,9 +185,10 @@
             </div>
           </div>
         </li>
-        <!-- <li>
+        <li>
           <a
-            href="#"
+            routerLink="/admin/profile-page"
+            routerLinkActive="active-link"
             class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-indigo-50 active:scale-110 ease-in transition-all hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-2"
           >
             <span class="inline-flex justify-center items-center ml-4">
@@ -203,8 +209,8 @@
             </span>
             <span class="ml-2 text-sm tracking-wide truncate">Profile</span>
           </a>
-        </li> -->
-        <li>
+        </li>
+        <!-- <li>
           <div
             class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-indigo-50 active:scale-110 ease-in transition-all hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-2"
           >
@@ -232,7 +238,7 @@
             </span>
             <span class="ml-2 text-sm tracking-wide truncate">Settings</span>
           </div>
-        </li>
+        </li> -->
         <li>
           <div
             (click)="logout()"
