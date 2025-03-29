@@ -15,31 +15,31 @@ export class AuthService {
       .toPromise()
       .then((user) => {
         this.isLoggedIn = true;
-        localStorage.setItem('auth', 'true');
-        localStorage.setItem('isAvailable', 'true');
-        localStorage.setItem('role', user.role);
-        localStorage.setItem('login', user.login); 
+        sessionStorage.setItem('auth', 'true');
+        sessionStorage.setItem('isAvailable', 'true');
+        sessionStorage.setItem('role', user.role);
+        sessionStorage.setItem('login', user.login);
         return true;
       })
       .catch(() => false);
   }
   
   getLogin(): string | null {
-    return localStorage.getItem('login');
+    return sessionStorage.getItem('login');
   }
-
+  
   logout(): void {
     this.isLoggedIn = false;
-    localStorage.clear();
+    sessionStorage.clear();
     this.router.navigate(['/']);
   }
-
+  
   isAuthenticated(): boolean {
-    return this.isLoggedIn || localStorage.getItem('auth') === 'true';
+    return this.isLoggedIn || sessionStorage.getItem('auth') === 'true';
   }
-
+  
   getRole(): string | null {
-    return localStorage.getItem('role');
+    return sessionStorage.getItem('role');
   }
 
 }

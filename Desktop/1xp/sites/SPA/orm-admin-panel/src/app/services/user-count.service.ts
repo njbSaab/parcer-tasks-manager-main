@@ -1,7 +1,6 @@
-// src/app/services/user-count.service.ts
-
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, fromEvent } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http'; // 👈 добавить
 
 @Injectable({
   providedIn: 'root',
@@ -10,18 +9,14 @@ export class UserCountService {
   private userCountSubject = new BehaviorSubject<number>(this.getUserCountFromStorage());
   userCount$ = this.userCountSubject.asObservable();
 
-  constructor() {
-    // Слушаем изменения localStorage
-    fromEvent<StorageEvent>(window, 'storage').subscribe((event) => {
-      if (event.key === 'userCount') {
-        this.updateUserCount();
-      }
-    });
-  }
+  constructor(private http: HttpClient) {} // 👈 внедрили
 
+  // Универсальный метод
   updateUserCount(): void {
-    const count = this.getUserCountFromStorage();
-    this.userCountSubject.next(count);
+    this.http.get<any[]>('http://localhost:3211/api/users').subscribe((users) => {
+      this.userCountSubject.next(users.length);
+      localStorage.setItem('userCount', users.length.toString());
+    });
   }
 
   private getUserCountFromStorage(): number {
