@@ -98,6 +98,7 @@ span.btn-info {
   }
 }
 .isLoading {
+  margin-left: 8.5rem;
   transform: translate(-50%, -50%);
   left: 50%;
   top: 50%;
@@ -109,4 +110,12 @@ span.btn-info {
 }
 .collapse {
   border-radius: 30px !important;
+}
+[tuiWrapper][data-appearance="textfield"] {
+  transition-property: box-shadow, background;
+  transition-duration: var(--tui-duration, 300ms);
+  transition-timing-function: ease-in-out;
+  background: var(--tui-base-01);
+  color: var(--tui-text-01);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.1);
 }

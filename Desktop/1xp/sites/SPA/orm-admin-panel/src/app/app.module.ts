@@ -8,20 +8,24 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TuiRootModule } from '@taiga-ui/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import {  ReactiveFormsModule } from '@angular/forms';
+import { MainPageComponent } from './main-page/main-page.component';
+import { TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, MainPageComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     SharedModule,
     AdminModule,
     BrowserAnimationsModule,
-    RouterModule, 
+    RouterModule,
     TuiRootModule,
     HttpClientModule,
-    FormsModule
+    ReactiveFormsModule,
+    TuiInputModule,
+    TuiInputPasswordModule,
   ],
   bootstrap: [AppComponent],
 })
